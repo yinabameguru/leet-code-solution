@@ -83,15 +83,10 @@ class Solution {
         path.add(root.val);
         if (sum == curSum && root.left == null && root.right == null) {
             result.add(new ArrayList<>(path));
-            path.remove(path.size() - 1);
-            return;
         }
-        if (root.left != null) {
-            dfs(path, root.left, sum, curSum);
-        }
-        if (root.right != null) {
-            dfs(path, root.right, sum, curSum);
-        }
+        dfs(path, root.left, sum, curSum);
+        dfs(path, root.right, sum, curSum);
+
         path.remove(path.size() - 1);
     }
 }
