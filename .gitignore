@@ -1,2 +1,5 @@
 # Default ignored files
 .idea/
+/out
+src/main/java/cn/com/meguru/leetcode/editor/cn/all.json
+src/main/java/cn/com/meguru/leetcode/editor/cn/translation.json
