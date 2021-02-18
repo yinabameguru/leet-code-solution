@@ -45,27 +45,28 @@ class Solution {
         }
         char[] chars = s.toCharArray();
         Set<String> res = new HashSet<String>();
-        permutation(chars, 0, res, new StringBuilder());
+        permutation(chars, 0, res);
         return res.toArray(new String[0]);
     }
 
-    private void permutation(char[] chars, int i, Set<String> res, StringBuilder sb) {
-        sb.append(chars[i]);
+    private void permutation(char[] chars, int i, Set<String> res) {
         if (i == chars.length - 1) {
-            res.add(sb.toString());
-            sb.deleteCharAt(sb.length() - 1);
+            res.add(String.copyValueOf(chars));
             return;
         }
-        permutation(chars, i + 1, res, sb);
-
+        permutation(chars, i + 1, res);
+        //剪枝
+        HashSet<Character> set = new HashSet<>();
+        set.add(chars[i]);
         for (int j = i + 1; j < chars.length; j++) {
+            if (set.contains(chars[j])) {
+                continue;
+            }
+            set.add(chars[j]);
             swap(chars, i, j);
-            sb.deleteCharAt(sb.length() - 1);
-            sb.append(chars[i]);
-            permutation(chars, i + 1, res, sb);
+            permutation(chars, i + 1, res);
             swap(chars, i, j);
         }
-        sb.deleteCharAt(sb.length() - 1);
     }
 
     private void swap(char[] chars, int i, int j) {
