@@ -1,5 +1,7 @@
 package cn.com.meguru.helper;
 
+import java.util.Arrays;
+
 public class Helper {
     public void swapChar(char[] chars, int i, int j) {
         char c = chars[i];
@@ -29,5 +31,21 @@ public class Helper {
             workStart = workStart + 1;
         }
         return partition(nums, workStart, workEnd);
+    }
+
+    public static int[][] toArray(String s) {
+        s = s.substring(2, s.length() - 2);
+        String[] arrays = s.split("],\\[");
+
+        int[][] ints = Arrays.stream(arrays)
+                .map(array -> {
+                    String[] stringArray = array.split(",");
+                    int[] arr = Arrays.stream(stringArray)
+                            .map(Integer::valueOf)
+                            .mapToInt(Integer::intValue)
+                            .toArray();
+                    return arr;
+                }).toArray(int[][]::new);
+        return ints;
     }
 }
