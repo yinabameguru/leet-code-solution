@@ -1,6 +1,8 @@
 package cn.com.meguru.helper;
 
 import java.util.Arrays;
+import java.util.Deque;
+import java.util.LinkedList;
 
 public class Helper {
     public void swapChar(char[] chars, int i, int j) {
@@ -47,6 +49,33 @@ public class Helper {
                     return arr;
                 }).toArray(int[][]::new);
         return ints;
+    }
+
+    public static TreeNode arrayToTree(Integer[] arr) {
+        Deque<TreeNode> queue = new LinkedList<>();
+        TreeNode root = new TreeNode(arr[0]);
+        queue.push(root);
+        int i = 1;
+        while (!queue.isEmpty()) {
+            TreeNode node = queue.poll();
+            if (i < arr.length) {
+                if (arr[i] != null) {
+                    TreeNode left = new TreeNode(arr[i]);
+                    node.left = left;
+                    queue.offer(left);
+                }
+                i = i + 1;
+            }
+            if (i< arr.length) {
+                if (arr[i] != null) {
+                    TreeNode right = new TreeNode(arr[i]);
+                    node.right = right;
+                    queue.offer(right);
+                }
+                i = i + 1;
+            }
+        }
+        return root;
     }
 
     class Pair {
