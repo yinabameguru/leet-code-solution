@@ -51,6 +51,16 @@ public class Helper {
         return ints;
     }
 
+    public static int[] toArray2(String s) {
+        s = s.substring(1, s.length() - 1);
+        String[] stringArray = s.split(",");
+        int[] arr = Arrays.stream(stringArray)
+                .map(Integer::valueOf)
+                .mapToInt(Integer::intValue)
+                .toArray();
+        return arr;
+    }
+
     public static TreeNode arrayToTree(Integer[] arr) {
         Deque<TreeNode> queue = new LinkedList<>();
         TreeNode root = new TreeNode(arr[0]);
