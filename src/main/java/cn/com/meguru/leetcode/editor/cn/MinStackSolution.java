@@ -47,10 +47,10 @@ package cn.com.meguru.leetcode.editor.cn;
 import java.util.Deque;
 import java.util.LinkedList;
 
-public class MinStack {
+public class MinStackSolution {
     public static void main(String[] args) {
-        MinStack mainClass = new MinStack();
-        Solution solution = mainClass.new Solution();
+        MinStackSolution mainClass = new MinStackSolution();
+        MinStack solution = mainClass.new MinStack();
         solution.push(-2);
         solution.push(0);
         solution.push(-3);
