@@ -61,6 +61,17 @@ public class Helper {
         return arr;
     }
 
+    public static ListNode toLinkedList(String s) {
+        int[] ints = toArray2(s);
+        ListNode head = new ListNode(ints[0]);
+        ListNode pre = head;
+        for (int i = 1; i < ints.length; i++) {
+            pre.next = new ListNode(ints[i]);
+            pre = pre.next;
+        }
+        return head;
+    }
+
     public static TreeNode arrayToTree(Integer[] arr) {
         Deque<TreeNode> queue = new LinkedList<>();
         TreeNode root = new TreeNode(arr[0]);
