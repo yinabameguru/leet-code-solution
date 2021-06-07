@@ -1,8 +1,6 @@
 package cn.com.meguru.helper;
 
-import java.util.Arrays;
-import java.util.Deque;
-import java.util.LinkedList;
+import java.util.*;
 
 public class Helper {
     public void swapChar(char[] chars, int i, int j) {
@@ -114,6 +112,46 @@ public class Helper {
                     "x=" + x +
                     ", y=" + y +
                     '}';
+        }
+    }
+
+
+    class Graph {
+        Map<Integer, GraphVector> vectors = new HashMap<>();
+        void addVector(Integer i) {
+            GraphVector graphVector = vectors.get(i);
+            if (graphVector != null) {
+                return;
+            }
+            vectors.put(i, new GraphVector(i));
+        }
+
+        void addNode(int vector, int val) {
+            GraphNode graphNode = new GraphNode(val);
+            GraphVector graphVector = vectors.get(vector);
+            graphNode.next = graphVector.node;
+            graphVector.node = graphNode;
+            GraphVector outVector = vectors.get(val);
+            outVector.indegree = outVector.indegree + 1;
+        }
+    }
+
+    class GraphVector {
+        int val;
+        int indegree = 0;
+        GraphNode node;
+
+        public GraphVector(int val) {
+            this.val = val;
+        }
+    }
+
+    class GraphNode {
+        int val;
+        GraphNode next;
+
+        public GraphNode(int val) {
+            this.val = val;
         }
     }
 }
