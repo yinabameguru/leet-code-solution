@@ -53,6 +53,8 @@
 
 package cn.com.meguru.leetcode.editor.cn;
 
+import java.util.Arrays;
+
 public class UniquePaths {
     public static void main(String[] args) {
         UniquePaths mainClass = new UniquePaths();
@@ -62,14 +64,9 @@ public class UniquePaths {
 
 //leetcode submit region begin(Prohibit modification and deletion)
 class Solution {
-//    public int uniquePaths(int m, int n) {
-//        Pair start = new Pair(0, 0), end = new Pair(m - 1, n - 1);
-//        int[][] dp = new int[n][m];
-//        uniquePaths(start, end, dp);
-//        return dp[n - 1][m - 1];
-//    }
 
-    public int uniquePaths(int m, int n) {
+    //自底向上动态规划
+    public int uniquePaths1(int m, int n) {
         int[][] dp = new int[n][m];
         dp[0][0] = 1;
 
@@ -86,38 +83,26 @@ class Solution {
         return dp[n - 1][m - 1];
     }
 
-//    public int uniquePaths(int m, int n) {
-//        int[][] dp = new int[n][m];
-//        for (int[] ints : dp) {
-//            ints[0] = 1;
-//        }
-//        for (int i = 0; i < m; i++) {
-//            dp[0][i] = 1;
-//        }
-//        for (int i = 1; i < m; i++) {
-//            for (int j = 1; j < n; j++) {
-//                dp[j][i] = dp[j - 1][i] + dp[j][i - 1];
-//            }
-//        }
-//        return dp[n - 1][m - 1];
-//    }
+    //自顶向下动态规划
+    public int uniquePaths(int m, int n) {
+        int[][] dp = new int[n][m];
+        for (int[] arr : dp) {
+            Arrays.fill(arr, -1);
+        }
+        dp[n - 1][m - 1] = 1;
+        return uniquePaths(new Pair(0, 0), new Pair(m - 1, n - 1), dp);
+    }
 
-//    private void uniquePaths(Pair cur, Pair end, int[][] dp) {
-//
-//    }
-
-    //dfs超时
-//    private int uniquePaths(Pair cur, Pair end, int i) {
-//        if (cur.x > end.x || cur.y > end.y) {
-//            return i;
-//        }
-//        if (cur.x == end.x && cur.y == end.y) {
-//            return i + 1;
-//        }
-//        i = uniquePaths(new Pair(cur.x + 1, cur.y), end, i);
-//        i = uniquePaths(new Pair(cur.x, cur.y + 1), end, i);
-//        return i;
-//    }
+    private int uniquePaths(Pair cur, Pair end, int[][] dp) {
+        if (cur.x > end.x || cur.y > end.y) {
+            return 0;
+        }
+        if (dp[cur.y][cur.x] == -1) {
+            dp[cur.y][cur.x] = uniquePaths(new Pair(cur.x + 1, cur.y), end, dp)
+                    + uniquePaths(new Pair(cur.x, cur.y + 1), end, dp);
+        }
+        return dp[cur.y][cur.x];
+    }
 
     class Pair {
         int x;
