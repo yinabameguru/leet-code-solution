@@ -31,6 +31,8 @@
 
 package cn.com.meguru.leetcode.editor.cn;
 
+import java.util.Arrays;
+
 public class UniqueBinarySearchTrees {
     public static void main(String[] args) {
         UniqueBinarySearchTrees mainClass = new UniqueBinarySearchTrees();
@@ -40,7 +42,32 @@ public class UniqueBinarySearchTrees {
 
 //leetcode submit region begin(Prohibit modification and deletion)
 class Solution {
+
+    //自顶向下记忆集
     public int numTrees(int n) {
+        int[] dp = new int[n + 1];
+        Arrays.fill(dp, -1);
+        dp[0] = 1;
+        dp[1] = 1;
+        return num(n, dp);
+    }
+
+    private int num(int n, int[] dp) {
+        if (n == 1) {
+            return 1;
+        }
+        if (dp[n] >= 0) {
+            return dp[n];
+        }
+        int val = 0;
+        for (int i = 1; i < n + 1; i++) {
+            val = val + num(i - 1, dp) * num(n - i, dp);
+        }
+        return val;
+    }
+
+    //自底向上
+    public int numTrees2(int n) {
         if (n == 1) {
             return 1;
         }
