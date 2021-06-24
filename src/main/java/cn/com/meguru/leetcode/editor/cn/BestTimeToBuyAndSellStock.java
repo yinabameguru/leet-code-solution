@@ -39,6 +39,8 @@
 
 package cn.com.meguru.leetcode.editor.cn;
 
+import java.util.Arrays;
+
 public class BestTimeToBuyAndSellStock {
     public static void main(String[] args) {
         BestTimeToBuyAndSellStock mainClass = new BestTimeToBuyAndSellStock();
@@ -47,7 +49,7 @@ public class BestTimeToBuyAndSellStock {
 
 //leetcode submit region begin(Prohibit modification and deletion)
 class Solution {
-    public int maxProfit(int[] prices) {
+    public int maxProfit1(int[] prices) {
         if (prices.length == 0) {
             return 0;
         }
@@ -62,6 +64,32 @@ class Solution {
             }
         }
         return val;
+    }
+
+    //自顶向下动态规划f(x) = max(f(x - 1), price(x) - minprice(x - 1))
+    int[] memo = null;
+    int[] prices = null;
+    int minprice;
+    public int maxProfit(int[] prices) {
+        this.prices = prices;
+        memo = new int[prices.length];
+        Arrays.fill(memo, -1);
+        minprice = prices[0];
+        return maxProfit(prices.length - 1);
+    }
+
+    private int maxProfit(int x) {
+        if (x < 0) {
+            return 0;
+        }
+        if (memo[x] != -1) {
+            return memo[x];
+        }
+        memo[x] = Math.max(maxProfit(x - 1), prices[x] - minprice);
+        if (prices[x] < minprice) {
+            minprice = prices[x];
+        }
+        return memo[x];
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)
