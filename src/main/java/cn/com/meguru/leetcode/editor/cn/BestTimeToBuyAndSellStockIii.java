@@ -54,8 +54,6 @@
 
 package cn.com.meguru.leetcode.editor.cn;
 
-import java.util.Arrays;
-
 public class BestTimeToBuyAndSellStockIii {
     public static void main(String[] args) {
         BestTimeToBuyAndSellStockIii mainClass = new BestTimeToBuyAndSellStockIii();
@@ -66,8 +64,46 @@ public class BestTimeToBuyAndSellStockIii {
 //leetcode submit region begin(Prohibit modification and deletion)
 class Solution {
 
-    //记忆化搜索，超时
+
     public int maxProfit(int[] prices) {
+        memo = new Integer[prices.length][2][3];
+        this.prices = prices;
+        return maxProfit(prices.length - 1, 0, 2);
+    }
+
+    private int maxProfit(int day, int hold, int sellTime) {
+        if (memo[day][hold][sellTime] != null) {
+            return memo[day][hold][sellTime];
+        }
+        if (day == 0) {
+            if (hold == 0) {
+                return 0;
+            } else {
+                return -prices[0];
+            }
+        }
+        if (hold == 1) {
+            memo[day][hold][sellTime] = Math.max(maxProfit(day - 1, 1, sellTime),
+                    maxProfit(day - 1, 0, sellTime) - prices[day]);
+        } else if (hold == 0) {
+            if (sellTime == 0) {
+                memo[day][hold][sellTime] = maxProfit(day - 1, 0, 0);
+            } else if (sellTime == 1) {
+                memo[day][hold][sellTime] = Math.max(maxProfit(day - 1, 0, 1),
+                        maxProfit(day - 1, 1, 0) + prices[day]);
+            } else if (sellTime == 2) {
+                memo[day][hold][sellTime] = Math.max(maxProfit(day - 1, 0, 2),
+                        maxProfit(day - 1, 1, 1) + prices[day]);
+            }
+        }
+        return memo[day][hold][sellTime];
+    }
+
+    //[天数][是否持股][出售次数]
+    Integer[][][] memo = null;
+
+    //记忆化搜索，超时
+    public int maxProfit1(int[] prices) {
         this.prices = prices;
 //        memo = new Integer[prices.length][prices.length];
         int res = 0;
@@ -98,7 +134,6 @@ class Solution {
         return maxProfit;
     }
 
-    Integer[][] memo = null;
     int[] prices = null;
     int minPrice;
     Integer maxProfit;
