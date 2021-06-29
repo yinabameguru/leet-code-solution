@@ -39,11 +39,13 @@
 
 package cn.com.meguru.leetcode.editor.cn;
 
+import java.util.Arrays;
+
 public class BestTimeToBuyAndSellStockIv {
     public static void main(String[] args) {
         BestTimeToBuyAndSellStockIv mainClass = new BestTimeToBuyAndSellStockIv();
         Solution solution = mainClass.new Solution();
-        int res = solution.maxProfit(2, new int[]{2, 4, 1});
+        int res = solution.maxProfit(2, new int[]{3,2,6});
         System.out.println(res);
     }
 
@@ -55,14 +57,16 @@ class Solution {
         }
         this.k = k;
         this.prices = prices;
-        memo = new Integer[prices.length][3][k + 1];
+        memo = new Integer[prices.length][2][k + 1];
         memo[0][0][0] = 0;
         memo[0][1][0] = -prices[0];
-        return maxProfit(prices.length - 1, 0, k);
+        int i = maxProfit(prices.length - 1, 0, k);
+        System.out.println(Arrays.deepToString(memo));
+        return i;
     }
 
     private int maxProfit(int day, int hold, int time) {
-        if (day == -1 || hold == 2 || hold == -1 || time == -1) {
+        if (day == -1 || time == -1) {
             return -2000;
         }
         if (memo[day][hold][time] != null) {
@@ -71,10 +75,14 @@ class Solution {
         if ((day + 1) / 2 - time < 0) {
             return maxProfit(day, hold, time - 1);
         }
-        int case1 = 0, case2 = 0, case3 = 0;
-        case1 = maxProfit(day - 1, hold, time);
-        case2 = maxProfit(day - 1, hold + 1, time - 1) + prices[day];
-        case3 = maxProfit(day - 1, hold - 1, time) - prices[day];
+        int case1 = -2000, case2 = -2000, case3 = -2000;
+        if (hold == 0) {
+            case1 = maxProfit(day - 1, 0, time);
+            case2 = maxProfit(day - 1, 1, time - 1) + prices[day];
+        } else if (hold == 1) {
+            case1 = maxProfit(day - 1, 1, time);
+            case3 = maxProfit(day - 1, 0, time) - prices[day];
+        }
         memo[day][hold][time] = Math.max(Math.max(case1, case2), case3);
         return memo[day][hold][time];
     }
