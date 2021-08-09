@@ -51,8 +51,6 @@
 
 package cn.com.meguru.leetcode.editor.cn;
 
-import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
-
 public class SearchInRotatedSortedArray {
     public static void main(String[] args) {
         SearchInRotatedSortedArray mainClass = new SearchInRotatedSortedArray();
