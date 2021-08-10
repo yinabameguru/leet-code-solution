@@ -97,7 +97,7 @@ class Solution {
             }
         }
         count[rem] = num == Integer.MAX_VALUE ? -1 : num;
-        return num;
+        return count[rem];
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)
