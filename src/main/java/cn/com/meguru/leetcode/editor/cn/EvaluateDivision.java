@@ -68,12 +68,6 @@ public class EvaluateDivision {
     public static void main(String[] args) {
         EvaluateDivision mainClass = new EvaluateDivision();
         Solution solution = mainClass.new Solution();
-        //equations = [["a","b"],["b","c"]], values = [2.0,3.0], queries = [["a","c"]
-        List<List<String>> equations = List.of(List.of("x1","x2"), List.of("x2","x3"), List.of("x3","x4"), List.of("x4","x5"));
-        double[] values = {3.0,4.0,5.0,6.0};
-        List<List<String>> queries = List.of(List.of("x1","x5"), List.of("x5","x2"), List.of("x2","x4"), List.of("x2","x2"), List.of("x2","x9"), List.of("x9","x9"));
-        double[] doubles = solution.calcEquation(equations, values, queries);
-        System.out.println(Arrays.toString(doubles));
     }
 
 //leetcode submit region begin(Prohibit modification and deletion)

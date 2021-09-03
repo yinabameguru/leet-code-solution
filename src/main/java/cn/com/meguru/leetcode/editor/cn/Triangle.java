@@ -58,8 +58,6 @@ public class Triangle {
     public static void main(String[] args) {
         Triangle mainClass = new Triangle();
         Solution solution = mainClass.new Solution();
-        List<List<Integer>> list = List.of(List.of(2), List.of(3, 4), List.of(6, 5, 7));
-        solution.minimumTotal(list);
     }
 
 //leetcode submit region begin(Prohibit modification and deletion)

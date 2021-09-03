@@ -82,7 +82,7 @@ class Solution {
 
     public int openLock(String[] deadends, String target) {
         this.target = target;
-        this.deadends = new HashSet<>(List.of(deadends));
+        this.deadends = new HashSet<>(Arrays.asList(deadends));
         if (this.deadends.contains("0000")) {
             return -1;
         }
@@ -126,7 +126,8 @@ class Solution {
     Map<String, Integer> map = new HashMap<>();
 
     public int openLock1(String[] deadends, String target) {
-        this.deadends = Set.of(deadends);
+
+        this.deadends = new HashSet<>(Arrays.asList(deadends));
         this.target = target;
         openLock(0, 0, 0, 0, 0);
         return memo[Integer.parseInt(String.valueOf(target.charAt(0)))][Integer.parseInt(String.valueOf(target.charAt(1)))][Integer.parseInt(String.valueOf(target.charAt(2)))][Integer.parseInt(String.valueOf(target.charAt(3)))];
