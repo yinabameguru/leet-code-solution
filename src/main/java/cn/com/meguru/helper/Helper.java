@@ -1,6 +1,7 @@
 package cn.com.meguru.helper;
 
 import java.util.*;
+import java.util.function.Consumer;
 
 public class Helper {
     public void swapChar(char[] chars, int i, int j) {
@@ -153,5 +154,34 @@ public class Helper {
         public GraphNode(int val) {
             this.val = val;
         }
+    }
+
+
+    /**
+     * 中序遍历二叉树
+     * @param root
+     * @param consumer
+     */
+    public static void midRootForeach(TreeNode root, Consumer<TreeNode> consumer) {
+        if (root == null) {
+            return;
+        }
+        midRootForeach(root.left, consumer);
+        consumer.accept(root);
+        midRootForeach(root.right, consumer);
+    }
+
+    /**
+     * 按右-中-左遍历二叉树
+     * @param root
+     * @param consumer
+     */
+    public static void rightMidLeftForeach(TreeNode root, Consumer<TreeNode> consumer) {
+        if (root == null) {
+            return;
+        }
+        rightMidLeftForeach(root.right, consumer);
+        consumer.accept(root);
+        rightMidLeftForeach(root.left, consumer);
     }
 }
