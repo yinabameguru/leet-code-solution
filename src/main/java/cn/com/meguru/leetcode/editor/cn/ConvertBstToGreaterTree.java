@@ -87,7 +87,7 @@ public class ConvertBstToGreaterTree {
  */
 class Solution {
     public TreeNode convertBST(TreeNode root) {
-        TreeNode f1res = f1(root);
+        TreeNode f1res = f2(root);
         return f1res;
     }
 
@@ -95,6 +95,11 @@ class Solution {
      * 1 先把二叉搜索树按中序遍历序列化到数组
      * 2 从大到小遍历数组，计算累加值
      * 3 再中序遍历二叉搜索树，替换累加后的值
+     *
+     * 设树的节点数为n
+     * 时间复杂度：O(n)
+     * 空间复杂度：O(n)
+     *
      * @param root
      * @return
      */
@@ -124,6 +129,38 @@ class Solution {
         midRootForeach(root.left, consumer);
         consumer.accept(root);
         midRootForeach(root.right, consumer);
+    }
+
+    /**
+     * 按右-中-左遍历二叉搜索树，遍历时做累加，节省f1中数组的空间复杂度
+     *
+     * 设树的节点数为n
+     * 设树的层高为h
+     * 时间复杂度：O(n)
+     * 空间复杂度：O(h)
+     * @param root
+     * @return
+     */
+    private TreeNode f2(TreeNode root) {
+        if (root == null || (root.left == null && root.right == null)) {
+            return root;
+        }
+        final int[] preVal = {0};
+        rightMidLeftForeach(root, r -> {
+            r.val = r.val + preVal[0];
+            preVal[0] = r.val;
+        });
+        return root;
+    }
+
+    //cn.com.meguru.helper.Helper.rightMidLeftForeach
+    public void rightMidLeftForeach(TreeNode root, Consumer<TreeNode> consumer) {
+        if (root == null) {
+            return;
+        }
+        rightMidLeftForeach(root.right, consumer);
+        consumer.accept(root);
+        rightMidLeftForeach(root.left, consumer);
     }
 
 }

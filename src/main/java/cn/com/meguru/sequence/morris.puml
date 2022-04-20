@@ -1,0 +1,29 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+title morris 中序遍历
+
+start
+while (root != null) is (yes)
+if (root有左子树) then (yes)
+partition 找到左子树最右节点pre {
+:pre = root.left;
+repeat
+:pre = pre.right;
+repeat while (pre.right != null && pre.right != root)
+}
+    if (pre.right == null) then (yes)
+    :pre.right = root;
+    :root = root.left;
+    else (no，此时pre.right == root)
+    #orange:处理root;
+    :pre.right = null;
+    :root = root.right;
+    endif
+else (no)
+#orange:处理root;
+:root = root.right;
+endif
+endwhile (no)
+stop
+@enduml
