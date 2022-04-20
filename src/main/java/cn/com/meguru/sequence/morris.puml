@@ -8,9 +8,9 @@ while (root != null) is (yes)
 if (root有左子树) then (yes)
 partition 找到左子树最右节点pre {
 :pre = root.left;
-repeat
+while (pre.right != null && pre.right != root) is (yes)
 :pre = pre.right;
-repeat while (pre.right != null && pre.right != root)
+endwhile (no)
 }
     if (pre.right == null) then (yes)
     :pre.right = root;
