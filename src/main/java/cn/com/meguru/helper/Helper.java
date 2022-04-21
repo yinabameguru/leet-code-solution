@@ -184,4 +184,26 @@ public class Helper {
         consumer.accept(root);
         rightMidLeftForeach(root.left, consumer);
     }
+
+    public static void morrisRightMidLeftForeach(TreeNode root, Consumer<TreeNode> consumer) {
+        while (root != null) {
+            TreeNode pre = root.right;
+            if (pre == null) {
+                consumer.accept(root);
+                root = root.left;
+                continue;
+            }
+            while (pre.left != null && pre.left != root) {
+                pre = pre.left;
+            }
+            if (pre.left == null) {
+                pre.left = root;
+                root = root.right;
+            } else {
+                consumer.accept(root);
+                pre.left = null;
+                root = root.left;
+            }
+        }
+    }
 }

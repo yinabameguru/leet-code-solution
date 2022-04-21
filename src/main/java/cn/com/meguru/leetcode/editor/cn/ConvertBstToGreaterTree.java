@@ -87,7 +87,7 @@ public class ConvertBstToGreaterTree {
  */
 class Solution {
     public TreeNode convertBST(TreeNode root) {
-        TreeNode f1res = f2(root);
+        TreeNode f1res = f3(root);
         return f1res;
     }
 
@@ -161,6 +161,50 @@ class Solution {
         rightMidLeftForeach(root.right, consumer);
         consumer.accept(root);
         rightMidLeftForeach(root.left, consumer);
+    }
+
+    /**
+     * morris遍历按右-中-左遍历二叉搜索树，遍历时做累加，节省f2中数组的空间复杂度
+     *
+     * 设树的节点数为n
+     * 设树的层高为h
+     * 时间复杂度：O(n)
+     * 空间复杂度：O(1)
+     * @param root
+     * @return
+     */
+    private TreeNode f3(TreeNode root) {
+        if (root == null || (root.left == null && root.right == null)) {
+            return root;
+        }
+        final int[] preVal = {0};
+        morrisRightMidLeftForeach(root, r -> {
+            r.val = r.val + preVal[0];
+            preVal[0] = r.val;
+        });
+        return root;
+    }
+
+    public void morrisRightMidLeftForeach(TreeNode root, Consumer<TreeNode> consumer) {
+        while (root != null) {
+            TreeNode pre = root.right;
+            if (pre == null) {
+                consumer.accept(root);
+                root = root.left;
+                continue;
+            }
+            while (pre.left != null && pre.left != root) {
+                pre = pre.left;
+            }
+            if (pre.left == null) {
+                pre.left = root;
+                root = root.right;
+            } else {
+                consumer.accept(root);
+                pre.left = null;
+                root = root.left;
+            }
+        }
     }
 
 }
