@@ -103,10 +103,6 @@ class Solution {
     public int[] exclusiveTime(int n, List<String> logs) {
         //为每个独立指令准备一个栈，指令开始时入栈，记录指令开始时间，指令结束时出栈，并计算花费时间
         LinkedList<int[]> list = new LinkedList<>();
-//        Stack<String>[] stackArr = new Stack<>[n];
-//        for (int i = 0; i < n; i++) {
-//            stackArr[i] = new Stack<>();
-//        }
         //准备一个数组，记录每个函数的独占时间
         int[] exclusiveTime = new int[n];
         //遍历log，开始处理
