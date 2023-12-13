@@ -36,21 +36,22 @@ public class GroupAnagrams {
 //leetcode submit region begin(Prohibit modification and deletion)
 class Solution {
     public List<List<String>> groupAnagrams(String[] strs) {
-        Map<String, List<String>> map = new HashMap<>();
-        for (String str : strs) {
+        HashMap<String, List<String>> map = new HashMap<>();
+        for (int i = 0; i < strs.length; i++) {
+            String str = strs[i];
             char[] chars = str.toCharArray();
             Arrays.sort(chars);
-            String s = String.copyValueOf(chars);
-            List<String> vals = map.get(s);
-            if (Objects.isNull(vals)) {
-                vals = new ArrayList<>();
-                vals.add(str);
-                map.put(s, vals);
-            } else {
-                vals.add(str);
+            StringBuilder stringBuilder = new StringBuilder();
+            for (int j = 0; j < chars.length; j++) {
+                stringBuilder.append(chars[j]);
             }
+            String key = stringBuilder.toString();
+            List<String> list = map.getOrDefault(key, new ArrayList<>());
+            list.add(str);
+            map.put(key, list);
         }
-        return new ArrayList<>(map.values());
+        List<List<String>> result = new ArrayList<>(map.values());
+        return result;
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)
