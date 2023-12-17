@@ -38,8 +38,7 @@ package cn.com.meguru.leetcode.editor.cn;
 
 import cn.com.meguru.helper.Helper;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class LongestConsecutiveSequence {
     public static void main(String[] args) {
@@ -51,45 +50,118 @@ public class LongestConsecutiveSequence {
 //leetcode submit region begin(Prohibit modification and deletion)
 class Solution {
 
-    private Map<Integer, Integer> valParentMap = new HashMap<>();
-
     public int longestConsecutive(int[] nums) {
-        int result = 0;
-        for (int i = 0; i < nums.length; i++) {
-            valParentMap.put(nums[i], nums[i]);
-        }
-        for (int i = 0; i < nums.length; i++) {
-            union(nums[i], nums[i] + 1);
-        }
-        for (int i = 0; i < nums.length; i++) {
-            Integer root = getRoot(nums[i]);
-            result = Math.max(nums[i] - root + 1, result);
-        }
-        return result;
+//        return longestConsecutiveBySet(nums);
+        return longestConsecutiveByDisjointSet(nums);
     }
 
-    private void union(int i, int j) {
-        Integer root = getRoot(i);
-        Integer root2 = getRoot(j);
-        if (root == null || root2 == null) {
-            return;
+    /**
+     * 并查集
+     */
+    private int longestConsecutiveByDisjointSet(int[] nums) {
+        if (nums.length <= 1) {
+            return nums.length;
         }
-        if (root < root2) {
-            valParentMap.put(root2, root);
-        } else if (root > root2) {
-            valParentMap.put(root, root2);
+        HashMap<Integer, Integer> numIdxMap = new HashMap<>();
+        for (int i = 0; i < nums.length; i++) {
+            numIdxMap.put(nums[i], i);
         }
+        System.out.println("nums : " + Arrays.toString(nums));
+        Dsu dsu = new Dsu(nums.length);
+        System.out.println("inited : " + dsu.parent);
+        for (int i = 0; i < nums.length; i++) {
+            Integer preNumIdx = numIdxMap.get(nums[i] - 1);
+            if (Objects.isNull(preNumIdx)) {
+                continue;
+            }
+            dsu.unite(i, preNumIdx);
+        }
+        int res = 0;
+        System.out.println("united : " + dsu.parent);
+        for (int i = 0; i < nums.length; i++) {
+            Integer rootIdx = dsu.find(i);
+            res = Math.max(res, nums[rootIdx] - nums[i] + 1);
+        }
+        System.out.println("compress : " + dsu.parent);
+        return res;
     }
 
-    private Integer getRoot(int num) {
-        Integer parent = valParentMap.get(num);
-        if (parent == null || parent == num) {
-            return parent;
+
+    /**
+     * 并查集
+     */
+    class Dsu {
+
+        List<Integer> parent = null;
+
+        /**
+         * 初始化
+         * @param size 容量
+         */
+        Dsu(int size) {
+            parent = new ArrayList<>(size);
+            for (int i = 0; i < size; i++) {
+                parent.add(i, i);
+            }
         }
-        Integer root = getRoot(parent);
-        valParentMap.put(num, root);
-        return root;
+
+        /**
+         * 查找item的根节点
+         * @param item 查找结点
+         * @return
+         */
+        public Integer find(Integer item) {
+            Integer par = parent.get(item);
+            if (Objects.equals(par, item)) {
+                return item;
+            }
+            Integer root = find(par);
+            // 路径压缩
+            parent.set(item, root);
+            return root;
+        }
+
+        /**
+         * 合并
+         * item2合并到item1下
+         * @param item1 合并节点1，作为父节点
+         * @param item2 合并节点2，作为子节点
+         */
+        public void unite(Integer item1, Integer item2) {
+            parent.set(item2, item1);
+        }
+
+
+
+
     }
+
+    /**
+     * set解法
+     */
+    private int longestConsecutiveBySet(int[] nums) {
+        if (nums.length == 0) {
+            return 0;
+        }
+        HashSet<Integer> set = new HashSet<>();
+        for (int num : nums) {
+            set.add(num);
+        }
+        int res = 1;
+        for (int i = 0; i < nums.length; i++) {
+            int num = nums[i];
+            if (set.contains(num - 1)) {
+                continue;
+            }
+            int length = 1;
+            while (set.contains(++num)) {
+                length++;
+            }
+            res = Math.max(length, res);
+        }
+        return res;
+    }
+
 
 }
 //leetcode submit region end(Prohibit modification and deletion)
